@@ -52,7 +52,7 @@ export function SignupForm() {
                     onFocus={() => setIsFocused(true)}
                   />
                 </FormControl>
-                {state?.errors.username && !isFocused && (
+                {state?.errors && state?.errors.username && !isFocused && (
                   <FormMessage>{state.errors.username}</FormMessage>
                 )}
               </FormItem>
@@ -74,14 +74,14 @@ export function SignupForm() {
                     onFocus={() => setIsFocused(true)}
                   />
                 </FormControl>
-                {state?.errors.password && !isFocused && (
+                {state?.errors && state?.errors.password && !isFocused && (
                   <FormMessage>{state.errors.password}</FormMessage>
                 )}
               </FormItem>
             );
           }}
         />
-        <Button type="submit" className="mt-4 w-full">
+        <Button type="submit" className="mt-4 w-full" disabled={pending}>
           {pending ? <ImSpinner8 className="animate-spin" /> : "Submit"}
         </Button>
       </form>
