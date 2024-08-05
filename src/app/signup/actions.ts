@@ -3,7 +3,9 @@
 import { prisma } from "@/lib/prisma";
 import { formSchema, FormState } from "@/lib/schema";
 import { createSession, deleteSession } from "@/lib/session";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import bcrypt from "bcrypt";
+import { redirect } from "next/navigation";
 
 export async function signup(state: FormState, formData: FormData) {
   const validationResult = formSchema.safeParse({
@@ -15,19 +17,17 @@ export async function signup(state: FormState, formData: FormData) {
   }
   const { username, password } = validationResult.data;
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  try {
-    const user = await prisma.user.create({
-      data: {
-        username,
-        password: hashedPassword,
-      },
-    });
-    createSession(user.uid);
-    return { message: "User created" };
-  } catch (error) {
-    return { message: "Internal Server Error" };
+  const user = await prisma.user.create({
+    data: {
+      username,
+      password: hashedPassword,
+    },
+  });
+  if (!user) {
+    return { errors: { username: ["Username already exists"] } };
   }
+  createSession(user.uid);
+  redirect("/todos");
 }
 
 export async function signin(state: FormState, formData: FormData) {

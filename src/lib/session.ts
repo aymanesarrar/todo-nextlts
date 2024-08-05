@@ -47,12 +47,11 @@ export async function createSession(userId: string) {
   const expires = new Date(Date.now() + cookie.duration);
   const session = await encrypt({ userId, expires });
   cookies().set(cookie.name, session, { ...cookie.options, expires });
-  redirect("/todos");
 }
 export async function verifySession() {
   const session = await decrypt(cookies().get(cookie.name)?.value);
   if (!session?.userId) {
-    redirect("/login");
+    return null;
   }
   return { userId: session.userId };
 }
