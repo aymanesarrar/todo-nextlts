@@ -40,14 +40,14 @@ export async function signin(state: FormState, formData: FormData) {
     where: { username },
   });
   if (!user) {
-    return { errors: { username: "User not found" } };
+    return { errors: { username: ["User not found"] } };
   }
   const comparedPassword = await bcrypt.compare(password, user.password);
   if (!comparedPassword) {
-    return { errors: { password: "Password incorrect" } };
+    return { errors: { password: ["Password incorrect"] } };
   }
   createSession(user.uid);
-  return { message: "Logged in successfully" };
+  redirect("/todos");
 }
 
 export async function logout() {

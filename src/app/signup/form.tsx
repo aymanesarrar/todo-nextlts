@@ -1,6 +1,6 @@
 "use client";
 
-import { signup } from "./actions";
+import { signup, signin } from "./actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { set, z } from "zod";
@@ -20,8 +20,8 @@ import { Button } from "@/components/ui/button";
 import { ImSpinner8 } from "react-icons/im";
 import { useState } from "react";
 
-export function SignupForm() {
-  const [state, action, pending] = useFormState(signup, undefined);
+export function SignupForm({isSignin}: {isSignin: boolean}) {
+  const [state, action, pending] = useFormState(isSignin ? signin : signup, undefined);
   const [isFocused, setIsFocused] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
