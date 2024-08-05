@@ -1,11 +1,17 @@
+import "server-only";
 import { SignJWT, jwtVerify } from "jose";
+import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
-
+import { redirect } from "next/navigation";
 
 // our jwt secret key
 const key = new TextEncoder().encode(process.env.SECRET);
 
-const cookie = {
+const cookie: {
+  name: string;
+  options: Partial<ResponseCookie>;
+  duration: number;
+} = {
   name: "session",
   options: {
     httpOnly: true,
@@ -15,7 +21,6 @@ const cookie = {
   },
   duration: 24 * 60 * 60 * 1000,
 };
-
 
 // our jwt manupulation functions
 export async function encrypt(payload: any) {
@@ -37,12 +42,21 @@ export async function decrypt(session: any) {
   }
 }
 
-
 // this is a helper function for creating a new session, we will use this after the user logs in or signs up
 export async function createSession(userId: string) {
-    const expires = new Date(Date.now() + cookie.duration);
-    const session = await encrypt({ userId, expires });
-    
+  const expires = new Date(Date.now() + cookie.duration);
+  const session = await encrypt({ userId, expires });
+  cookies().set(cookie.name, session, { ...cookie.options, expires });
+  redirect("/todos");
 }
-export async function verifySession() {}
-export async function deleteSession() {}
+export async function verifySession() {
+  const session = await decrypt(cookies().get(cookie.name)?.value);
+  if (!session?.userId) {
+    redirect("/login");
+  }
+  return { userId: session.userId };
+}
+export async function deleteSession() {
+  cookies().delete(cookie.name);
+  redirect("/login");
+}
