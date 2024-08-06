@@ -53,7 +53,7 @@ export async function verifySession() {
   if (!session?.userId) {
     return null;
   }
-  return { userId: session.userId };
+  return { userId: session.userId as string };
 }
 export async function deleteSession() {
   cookies().delete(cookie.name);
