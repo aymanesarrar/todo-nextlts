@@ -23,3 +23,16 @@ export async function createTodo(state: FormState, formData: FormData) {
     })
     return { todo };
 }
+
+export async function getTodos() {
+    const session = await verifySession();
+    if (!session) {
+        return { errors: { session: ["Session not found"] } };
+    }
+    const todos = await prisma.todo.findMany({
+        where: {
+            userId: session.userId
+        }
+    })
+    return { todos };
+}
