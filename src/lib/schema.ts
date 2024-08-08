@@ -20,3 +20,9 @@ export type FormState =
       message?: string;
     }
   | undefined;
+
+export interface ITodoProps {
+  title: string;
+  description: string;
+  createdAt: string;
+}
