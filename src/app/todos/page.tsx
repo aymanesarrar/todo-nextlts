@@ -22,6 +22,7 @@ export default async function Todos() {
           return (
             <TodoCard
               key={todo.id}
+              todoId={todo.id}
               title={todo.title}
               createdAt={moment(todo.createdAt).format(
                 "MMMM Do YYYY, h:mm:ss a"

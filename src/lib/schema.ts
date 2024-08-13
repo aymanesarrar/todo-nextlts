@@ -22,6 +22,7 @@ export type FormState =
   | undefined;
 
 export interface ITodoProps {
+  todoId: number
   title: string;
   createdAt: string;
 }

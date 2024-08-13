@@ -57,5 +57,6 @@ export async function deleteTodo(todoId: number) {
       id: todoId,
     },
   });
+  revalidatePath("/todos");
   return { message: "Todo deleted" };
 }
