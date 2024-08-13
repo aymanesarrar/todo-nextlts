@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import { verifySession } from "./lib/session";
 
 export async function middleware(request: NextRequest) {
-  const protectedRoutes = ["/todos", "/todos/create"];
+  const protectedRoutes = ["/todos"];
   const currentUser = await verifySession();
   console.log("Current User", currentUser);
   if (!currentUser && protectedRoutes.includes(request.nextUrl.pathname)) {

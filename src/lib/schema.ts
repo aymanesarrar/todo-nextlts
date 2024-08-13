@@ -23,6 +23,5 @@ export type FormState =
 
 export interface ITodoProps {
   title: string;
-  description: string;
   createdAt: string;
 }

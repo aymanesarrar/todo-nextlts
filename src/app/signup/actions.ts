@@ -3,7 +3,6 @@
 import { prisma } from "@/lib/prisma";
 import { formSchema, FormState } from "@/lib/schema";
 import { createSession, deleteSession } from "@/lib/session";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 
@@ -52,5 +51,5 @@ export async function signin(state: FormState, formData: FormData) {
 
 export async function logout() {
   deleteSession();
-  return { message: "Logged out" };
+  redirect("/login");
 }

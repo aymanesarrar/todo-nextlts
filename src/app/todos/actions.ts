@@ -18,8 +18,8 @@ export async function createTodo(state: FormState, formData: FormData) {
   const todo = await prisma.todo.create({
     data: {
       title: payload.title,
-      description: payload.description,
-      Priority: payload.priority,
+      
+     
       userId: session.userId,
     },
   });
