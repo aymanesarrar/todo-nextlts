@@ -17,15 +17,19 @@ export default async function Todos() {
         <Logout />
       </div>
       <CreateTodo />
-      {data?.todos?.map((todo: Todo) => {
-        return (
-          <TodoCard
-            key={todo.id}
-            title={todo.title}
-            createdAt={moment(todo.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
-          />
-        );
-      })}
+      <div className=" max-w-[680px] mx-auto  p-2 flex flex-col gap-2 rounded-xl">
+        {data?.todos?.map((todo: Todo) => {
+          return (
+            <TodoCard
+              key={todo.id}
+              title={todo.title}
+              createdAt={moment(todo.createdAt).format(
+                "MMMM Do YYYY, h:mm:ss a"
+              )}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

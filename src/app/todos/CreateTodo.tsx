@@ -29,13 +29,14 @@ export const CreateTodo = () => {
           action(values);
           form.reset();
         }}
+        className="max-w-[680px] mx-auto flex flex-col gap-2 pt-2"
       >
         <FormField
           control={form.control}
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>todo</FormLabel>
+              
               <FormControl>
                 <Input placeholder="insert your todo ..." {...field} />
               </FormControl>

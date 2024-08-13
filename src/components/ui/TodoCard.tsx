@@ -6,7 +6,7 @@ export default function TodoCard({
   createdAt,
 }: ITodoProps) {
   return (
-    <div>
+    <div className="flex justify-between items-center bg-zinc-500 p-4">
       <span>{title}</span>
       
       <p>{createdAt}</p>
