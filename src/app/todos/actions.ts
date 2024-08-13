@@ -3,16 +3,15 @@
 import { prisma } from "@/lib/prisma";
 import { FormState } from "@/lib/schema";
 import { verifySession } from "@/lib/session";
+import { revalidatePath } from "next/cache";
 
-export async function createTodo(state: FormState, formData: FormData) {
+export async function createTodo(state: any, formData: FormData) {
   const session = await verifySession();
   if (!session) {
     return { errors: { session: ["Session not found"] } };
   }
   const payload = {
     title: formData.get("title") as string,
-    description: formData.get("description") as string,
-    priority: formData.get("priority") as string,
   };
 
   const todo = await prisma.todo.create({
@@ -23,6 +22,7 @@ export async function createTodo(state: FormState, formData: FormData) {
       userId: session.userId,
     },
   });
+  revalidatePath("/todos");
   return { todo };
 }
 
