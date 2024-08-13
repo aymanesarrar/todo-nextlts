@@ -51,5 +51,5 @@ export async function signin(state: FormState, formData: FormData) {
 
 export async function logout() {
   deleteSession();
-  redirect("/login");
+  redirect("/signin");
 }
